@@ -52,6 +52,7 @@ You can load them by running the following in your Console:
 library(tidyverse) 
 library(tidymodels)
 library(openintro)
+library(flextable)
 ```
 
 ## Data
@@ -138,7 +139,7 @@ score_bty_fit <- linear_reg() %>%
   set_engine("lm") %>%
   fit(score~bty_avg, data = evals)
 
-score_bty_fit %>% tidy()
+score_bty_fit %>% tidy() %>% flextable() %>% autofit()
 ```
 
 ***The linear model is: ***
@@ -178,7 +179,7 @@ score_gender_fit <- linear_reg() %>%
   fit(score~gender, data = evals) %>%
   tidy()
 
-score_gender_fit
+score_gender_fit %>% flextable() %>% autofit()
 ```
 
 ***The linear model is:***
@@ -203,7 +204,7 @@ score_rank_fit <- linear_reg() %>%
   fit(score~rank, data = evals) %>%
   tidy()
 
-score_rank_fit
+score_rank_fit %>% flextable() %>% autofit()
 ```
 
 ***The model is:***
@@ -228,7 +229,7 @@ score_rank_relevel_fit <- linear_reg() %>%
   fit(score~rank_relevel, data = evals) %>%
   tidy()
 
-score_rank_relevel_fit
+score_rank_relevel_fit %>% flextable() %>% autofit()
 ```
 
 ***The model is:***
