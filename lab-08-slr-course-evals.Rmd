@@ -7,7 +7,9 @@ link-citations: true
 ---
 
 ```{r include=FALSE}
-knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(error = FALSE)
 ```
 
 Many college courses conclude by giving students the opportunity to evaluate the course and the instructor anonymously.
@@ -65,10 +67,26 @@ You can also find this information [here](https://www.openintro.org/data/index.p
 
 1.  Visualize the distribution of `score`.
     Is the distribution skewed?
+    ***Yes, it is left-skewed.***
     What does that tell you about how students rate courses?
+    ***It tells you most students rate high, but there are some very low ratings.***
     Is this what you expected to see?
+    ***Yes***
     Why, or why not?
+    ***Because if the course is still taught and the teacher not fired, there should be something good about them.*** 
     Include any summary statistics and visualizations you use in your response.
+
+```{r}
+evals %>%
+  ggplot(aes(x = score)) +
+  geom_histogram()
+
+evals %>% 
+  summarize(means = mean(score), median = median(score), 
+            min = min(score), max = max(score), sd = sd(score),
+            q1 = quantile(score, probs = 0.25),
+            q3 = quantile(score, probs = 0.75))
+```
 
 2.  Visualize and describe the relationship between `score` and `bty_avg`.
 
@@ -76,8 +94,32 @@ You can also find this information [here](https://www.openintro.org/data/index.p
 **Hint:** See the help page for the function at http://ggplot2.tidyverse.org/reference/index.html.
 ```
 
+```{r}
+evals %>%
+  ggplot(aes(x = bty_avg, y = score)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm", se = FALSE) +
+  xlab("Beauty Average Rating") +
+  ylab("Average Professor Evaluation") +
+  ggtitle("Scatter Plot of Average Beauty Rating to Average Evaluation Score")
+```
+
+***There is a slight positive relationship between beauty average rating and average evaluation score.***
+
 3.  Recreate the scatterplot from Exercise 2, but this time use\
     `geom_jitter()`? What does "jitter" mean? What was misleading about the initial scatterplot?
+
+```{r}
+evals %>%
+  ggplot(aes(x = bty_avg, y = score)) +
+  geom_jitter(alpha = 0.25) +
+  geom_smooth(method = "lm", se = FALSE) +
+  xlab("Beauty Average Rating") +
+  ylab("Average Professor Evaluation") +
+  ggtitle("Scatter Plot of Average Beauty Rating to Average Evaluation Score")
+```
+
+***The jitter adds some interpherance to the points, so that when there is a lot of overlap for points, it doesn't just look like one point, but is a clump of points. The initial scatterplot (especially without a lower alpha level) made it seem like there were a smaller numebr of poitns.***
 
 🧶 ✅ ⬆️ *If you haven't done so recently, knit, commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
